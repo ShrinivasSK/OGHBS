@@ -7,7 +7,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///oghbs.db'
 db = SQLAlchemy(app)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-curUserId = -1;
+curUserId = -1
+
+status = [0 for i in range(100)]
+
 
 # user database
 class User(db.Model):
@@ -22,6 +25,24 @@ class User(db.Model):
 
     def __repr__(self):
         return '<Name %r>' % self.id
+
+
+class GuestHouse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(60))
+    description = db.Column(db.String(60))
+
+
+class Rooms(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    floor = db.Column(db.Integer)
+    type = db.Column(db.String(40))
+    description = db.Column(db.String(60))  # Room type, no of beds
+    status = db.Column(db.String(100))
+    ghId = db.Column(db.Integer)
+    pricePerDay = db.Column(db.Integer)
+    occupancy = db.Column(db.Integer)
+    ac = db.Column(db.Integer)
 
 
 # prevent cached responses
