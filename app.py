@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///oghbs.db'
@@ -8,7 +8,8 @@ db = SQLAlchemy(app)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 curUserId = -1
-
+checkInDate = datetime.now()
+checkOutDate = datetime.now()
 
 # user database
 class User(db.Model):
@@ -106,12 +107,36 @@ def reg_form():
 
 @app.route('/viewrooms', methods=["POST", "GET"])
 def ViewRooms():
-    checkindate = datetime.strptime(request.form['checkintime'], '%d-%m-%y')
-    checkoutdate = datetime.strptime(request.form['checkouttime'], '%d-%m-%y')
+    checkindate = datetime.strptime(request.form['checkintime'], '%Y-%m-%d')
+    checkoutdate = datetime.strptime(request.form['checkouttime'], '%Y-%m-%d')
     print(checkindate)
     print(checkoutdate)
     rooms = Rooms.query.all()
-    return render_template('Booking.html', rooms)
+    curdate = datetime.now()
+    startDay = max(curdate, checkindate-timedelta(days=3)) - curdate
+    startIdx = startDay.days
+    avail = []
+    days = []
+    urls = []
+    startdate = max(curdate, checkindate-timedelta(days=3))
+    for i in range(7):
+        temp = startdate + timedelta(days=i)
+        days.append(temp.day)
+    for room in rooms:
+        temp = []
+        urls.append("/room/"+str(room.id))
+        for j in range(7):
+            temp.append(int(room.status[startIdx+j]))
+        avail.append(temp)
+    return render_template('Booking.html', rooms=rooms, avail=avail, days=days, urls=urls)
+
+
+@app.route('/room/<roomid>', methods=["POST", "GET"])
+def room(roomid):
+    print("room is")
+    print(roomid)
+    return render_template('index.html')
+
 
 # @app.route('/main', methods=["POST", "GET"])
 
