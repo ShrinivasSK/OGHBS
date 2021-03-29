@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #f6f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    /* height: 100vh; */
+    /* margin: -20px 0 50px; */
+}
+
+
+/* h1 {
+    font-weight: bold;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+} */
+
+p {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+}
+
+span {
+    font-size: 12px;
+}
+
+a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+button {
+    border-radius: 20px;
+    border: 1px solid #FF4B2B;
+    background-color: #FF4B2B;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus {
+    outline: none;
+}
+
+button.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+}
+
+.bookingBox {
+    padding: 1rem;
+    display: flex;
+    border: black 2px;
+    border-radius: 1rem;
+    border-style: dashed;
+}
+
+.bookingDates {
+    display: flex;
+}
+
+.date {
+    padding: 0 1rem;
+    display: flex;
+}
+
+h4 {
+    padding-left: 1rem;
+    font-weight: normal;
+}
+
+.details {
+    display: flex;
+}
+
+.buttonDiv {
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    font-size: 1.2rem;
+    justify-self: center;
+    margin: 1rem 0rem;
+    /* flex-grow: 0; */
+}
+
+.price {
+    margin: 0.5rem 0.5rem;
+    font-size: 1.5rem;
+}
+
+.amount {
+    padding: 0 1rem;
+    margin: 0.5rem 0.5rem;
+    font-size: 1.5rem;
+}
