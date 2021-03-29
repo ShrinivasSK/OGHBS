@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/Booking.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+{% for i, room in enumerate(rooms) %}
+  <div class="row">
+    <section class="room">
+      <!-- Room Image -->
+      <div class="room_img">
+        <img src="https://s26.postimg.org/fx5koodix/hotel_thumb_1.jpg"/>
+      </div>
+      <!-- Room Information -->
+      <div class="room_information">
+        <h2 class="room_information--heading">Deluxe Loft</h2>
+        <p>1 king sized bed and style all the way to italy, floor-to-ceiling windows.  sleep 2 people, are 340 square feet, and are on floors 4-8</p>
+          <div class="availability">
+            <h3>Availability: </h3>
+            <div class="days">
+                <div class="box green_box">15</div>
+                <div class="box red_box">16</div>
+                <div class="box green_box">17</div>
+                <div class="box red_box">18</div>
+                <div class="box green_box">19</div>
+                <div class="box green_box">20</div>
+                <div class="box green_box">21</div>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="room_features">
+       <ul>
+          <li><i class="fa fa-bed"></i>&nbsp;AC</li> <!-- Bath Icon -->
+          <li><i class="fa fa-male"></i>&nbsp;2</li> <!-- People Icon -->
+          <li><span class="room_features--price"></span>5000<small class="room_features--currency">/-</small></li> <!-- Price -->
+        </ul>
+        <a href="javascript:void(0);" class="room_features--book-btn">Book Now</a> <!-- Book now -->
+      </div>
+    </section>
+  </div>
+{% endfor %}
+
+</body>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</html>

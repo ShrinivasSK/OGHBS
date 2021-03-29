@@ -9,8 +9,6 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 curUserId = -1
 
-status = [0 for i in range(100)]
-
 
 # user database
 class User(db.Model):
@@ -68,12 +66,11 @@ def hello_world():
     if request.method == "POST":
         print(request.form['username'])
         user = User.query.filter_by(username=request.form['username']).first()
-        print(user.password)
         print(request.form['password'])
         if user is not None and user.password == request.form['password']:
             global curUserId
             curUserId = user.id
-            return render_template('main.html', user=user)
+            return render_template('calender.html', user=user)
         else:
             return render_template('index.html', flag=0)
     return render_template('index.html', flag=1)
@@ -105,6 +102,16 @@ def reg_form():
         except:
             print("failed to add user to db")
     return render_template('regform.html', flag=1)
+
+
+@app.route('/viewrooms', methods=["POST", "GET"])
+def ViewRooms():
+    checkindate = datetime.strptime(request.form['checkintime'], '%d-%m-%y')
+    checkoutdate = datetime.strptime(request.form['checkouttime'], '%d-%m-%y')
+    print(checkindate)
+    print(checkoutdate)
+    rooms = Rooms.query.all()
+    return render_template('Booking.html', rooms)
 
 # @app.route('/main', methods=["POST", "GET"])
 
