@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/calender.css') }}">
+</head>
+<body>
+{#<h1>PURE CSS DATE PICKER</h1>#}
+
+<div class="nav">
+    <ul class="navigation">
+      <li><a href="">Book Now</a></li>
+      <li><a href="">Your Booking</a></li>
+    </ul>
+</div>
+{#<form action="/viewrooms" method="POST">#}
+<div class="flex-container">
+
+<div class="checkin">
+<label for="checkintime">Check-In Time</label>
+<input type="date" name="checkintime" id="checkintime">
+</div>
+<div class="space">
+
+</div>
+<div class="checkout">
+<label for="checkouttime">Check-Out Time</label>
+<input type="date" name="checkouttime" id="checkouttime">
+</div>
+
+   <button id="hello" type="submit">Search</button>
+
+    </div>
+{#</form>#}
+
+
+
+</body>
+
+</html>
