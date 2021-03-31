@@ -21,6 +21,7 @@ html {
  .row {
 	 padding: 0 15px;
 	 margin-top: 1em;
+	 width: 80%;
 	 display: inline-block;
 }
  .room {
