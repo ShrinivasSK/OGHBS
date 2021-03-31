@@ -9,6 +9,83 @@
 
 </head>
 <body>
+<div class="complete">
+<div class="leftColumn">
+    <div class="available">
+        <h2>Show Available Rooms</h2>
+        <label class="switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+    </div>
+    <div class="sort">
+        <h2>Sort</h2>
+        <div class="container">
+          <ul>
+          <li>
+            <input type="radio" id="desc" name="selector">
+            <label for="desc">Descending</label>
+            <div class="check"></div>
+          </li>
+
+          <li>
+            <input type="radio" id="asc" name="selector">
+            <label for="asc">Ascending</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+        </ul>
+        </div>
+    </div>
+        <div class="foodItems">
+        <h2>Food Options</h2>
+        <div class="container">
+          <ul>
+          <li>
+            <input type="radio" id="none" name="food">
+            <label for="none">None</label>
+            <div class="check"></div>
+          </li>
+
+          <li>
+            <input type="radio" id="niveg" name="food">
+            <label for="niveg">North Indian Veg</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+
+          <li>
+            <input type="radio" id="ninonveg" name="food">
+            <label for="ninonveg">North Indian Non-Veg</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+
+          <li>
+            <input type="radio" id="si" name="food">
+            <label for="si">South Indian</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+
+          <li>
+            <input type="radio" id="chin" name="food">
+            <label for="chin">Chinese</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+
+          <li>
+            <input type="radio" id="italy" name="food">
+            <label for="italy">Italian</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+
+          <li>
+            <input type="radio" id="kgp" name="food">
+            <label for="kgp">KGP Special</label>
+            <div class="check"><div class="inside"></div></div>
+          </li>
+        </ul>
+        </div>
+    </div>
+</div>
+<div>
 {% for room in rooms %}
 {#        <form action = "{{ url_for('room', roomid=room.id) }}" method="POST">#}
 {#    <form action = {% urls[loop.index0] %} method="POST">#}
@@ -49,6 +126,8 @@
     </section>
   </div>
 {% endfor %}
+</div>
+</div>
 
 </body>
 

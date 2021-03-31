@@ -135,7 +135,7 @@ def ViewRooms():
 def room(roomid):
     print("room is")
     print(roomid)
-    return render_template('index.html')
+    return render_template('Payment.html')
 
 
 # @app.route('/main', methods=["POST", "GET"])
