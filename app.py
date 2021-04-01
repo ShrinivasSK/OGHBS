@@ -10,6 +10,9 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 curUserId = -1
 checkInDate = datetime.now()
 checkOutDate = datetime.now()
+srt = '0'
+foodId = '0'
+availableOnly = '0'
 
 # user database
 class User(db.Model):
@@ -42,6 +45,12 @@ class Rooms(db.Model):
     pricePerDay = db.Column(db.Integer)
     occupancy = db.Column(db.Integer)
     ac = db.Column(db.Integer)
+
+
+class FoodOptions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    pricePerDay = db.Column(db.Integer)
+    type = db.Column(db.String(40))
 
 
 # prevent cached responses
@@ -104,38 +113,118 @@ def reg_form():
             print("failed to add user to db")
     return render_template('regform.html', flag=1)
 
+def checkAvailable(room):
+    global checkInDate
+    global checkOutDate
+    temp = checkInDate - datetime.now()
+    checkInIndex = temp.days
+    temp = checkOutDate - datetime.now()
+    checkOutIndex = temp.days
+    if checkInIndex < 0 or checkOutIndex < 0:
+        return False
+    for i in room.status[checkInIndex:checkOutIndex+1]:
+        if i == '1':
+            return False
+    return True
+
+
+rooms = []
+avail = []
+days = []
+urls = []
 
 @app.route('/viewrooms', methods=["POST", "GET"])
 def ViewRooms():
-    checkindate = datetime.strptime(request.form['checkintime'], '%Y-%m-%d')
-    checkoutdate = datetime.strptime(request.form['checkouttime'], '%Y-%m-%d')
-    print(checkindate)
-    print(checkoutdate)
-    rooms = Rooms.query.all()
-    curdate = datetime.now()
-    startDay = max(curdate, checkindate-timedelta(days=3)) - curdate
-    startIdx = startDay.days
-    avail = []
-    days = []
-    urls = []
-    startdate = max(curdate, checkindate-timedelta(days=3))
-    for i in range(7):
-        temp = startdate + timedelta(days=i)
-        days.append(temp.day)
-    for room in rooms:
-        temp = []
-        urls.append("/room/"+str(room.id))
-        for j in range(7):
-            temp.append(int(room.status[startIdx+j]))
-        avail.append(temp)
-    return render_template('Booking.html', rooms=rooms, avail=avail, days=days, urls=urls)
+    global checkInDate
+    global checkOutDate
+    global srt
+    global foodId
+    global availableOnly
+    global rooms
+    global avail
+    global days
+    global urls
+
+    if 'availableOnly' in request.form:
+        print("checking availability")
+        if request.form['availableOnly'] == '1':
+            availableOnly = '1'
+            rooms = [i for i in rooms if checkAvailable(i)]
+        else:
+            availableOnly = '0'
+            rooms = Rooms.query.all()
+
+    elif 'srt' in request.form:
+        print("sorting")
+        if request.form['srt'] == '0':
+            srt = '0'
+            rooms.sort(key=lambda x: x.pricePerDay)
+        else:
+            srt = '1'
+            rooms.sort(key=lambda x: x.pricePerDay, reverse=True)
+    if 'foodId' in request.form:
+        print("addind food")
+
+        for i in rooms:
+            temp = Rooms.query.filter_by(id=i.id).first()
+            i.pricePerDay = temp.pricePerDay
+        foodId = request.form['foodId']
+
+        idx = int(foodId)
+        foodItem = FoodOptions.query.filter_by(id=idx).first()
+        if foodItem is not None:
+            for i in rooms:
+                i.pricePerDay += foodItem.pricePerDay
+    else:
+        print("called")
+        if 'checkintime' in request.form:
+            checkindate = datetime.strptime(request.form['checkintime'], '%Y-%m-%d')
+            checkoutdate = datetime.strptime(request.form['checkouttime'], '%Y-%m-%d')
+            checkInDate = checkindate
+            checkOutDate = checkoutdate
+        print("called")
+        print(checkInDate)
+        print(checkOutDate)
+        if availableOnly == '1':
+            rooms = [i for i in rooms if checkAvailable(i)]
+        else:
+            rooms = Rooms.query.all()
+        if srt == '0':
+            rooms.sort(key=lambda x: x.pricePerDay)
+        else:
+            rooms.sort(key=lambda x: x.pricePerDay, reverse=True)
+        if foodId != '0':
+            for i in rooms:
+                temp = Rooms.query.filter_by(id=i.id).first()
+                i.pricePerDay = temp.pricePerDay
+            idx = int(foodId)
+            foodItem = FoodOptions.query.filter_by(id=idx).first()
+            if foodItem is not None:
+                for i in rooms:
+                    i.pricePerDay += foodItem.pricePerDay
+        curdate = datetime.now()
+        startDay = max(curdate, checkInDate-timedelta(days=3)) - curdate
+        startIdx = startDay.days
+        startdate = max(curdate, checkInDate-timedelta(days=3))
+        for i in range(7):
+            temp = startdate + timedelta(days=i)
+            days.append(temp.day)
+        for room in rooms:
+            temp = []
+            urls.append("/room/"+str(room.id))
+            for j in range(7):
+                temp.append(int(room.status[startIdx+j]))
+            avail.append(temp)
+
+    print(len(rooms))
+    return render_template('Booking.html', rooms=rooms, avail=avail, days=days, urls=urls, availableOnly=availableOnly, srt=srt, foodId=foodId)
 
 
 @app.route('/room/<roomid>', methods=["POST", "GET"])
 def room(roomid):
     print("room is")
     print(roomid)
-    return render_template('index.html')
+    return render_template('Payment.html')
 
 
 # @app.route('/main', methods=["POST", "GET"])
