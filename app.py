@@ -13,6 +13,7 @@ checkOutDate = datetime.now()
 srt = '0'
 foodId = '0'
 availableOnly = '0'
+roomId = 0
 
 # user database
 class User(db.Model):
@@ -80,7 +81,7 @@ def hello_world():
         if user is not None and user.password == request.form['password']:
             global curUserId
             curUserId = user.id
-            return render_template('calender.html', user=user)
+            return render_template('calender.html')
         else:
             return render_template('index.html', flag=0)
     return render_template('index.html', flag=1)
@@ -222,12 +223,25 @@ def ViewRooms():
 
 @app.route('/room/<roomid>', methods=["POST", "GET"])
 def room(roomid):
+    global roomId
     print("room is")
-    print(roomid)
-    return render_template('Payment.html')
+    roomId = int(roomid)
+    print(roomId)
+    roomBook = Rooms.query.filter_by(id=roomId).first()
+    foodBook = FoodOptions.query.filter_by(id=foodId).first()
+    roomPrice = roomBook.pricePerDay*((checkOutDate-checkInDate).days+1)
+    foodPrice = 0
+    if foodBook is not None:
+        foodPrice = foodBook.pricePerDay*((checkOutDate-checkInDate).days+1)
+
+    payable = 0.2*(roomPrice+foodPrice)
+    return render_template('Payment.html', roomPrice=roomPrice, foodPrice=foodPrice, payable=payable)
 
 
-# @app.route('/main', methods=["POST", "GET"])
+@app.route('/paymentDone', methods=["POST", "GET"])
+def paymentDone():
+    print("PaymentDone")
+    return render_template('calender.html')
 
 
 if __name__ == '__main__':

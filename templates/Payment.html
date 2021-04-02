@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <form id="form" autocomplete="off">
+  <form id="form" autocomplete="off" action="/paymentDone" method="POST">
     <header>
       <h2 style="font-family: 'Montserrat', sans-serif;">Payment Information</h2>
     </header>
@@ -110,26 +110,28 @@
     </div>
     <div class="payment-details">
       <div class="subtotal">
-        <span class="category">Sub-Total:</span>
-        <span class="price">$35.59 CAD</span>
+        <span class="category">Room Price:</span>
+        <span class="price">{{ roomPrice }} /-</span>
       </div>
       <div class="gst">
-        <span class="category">5% GST:</span>
-        <span class="price">$1.78 CAD</span>
+        <span class="category">Food Price</span>
+        <span class="price">{{ foodPrice }} /-</span>
       </div>
       <div class="qst">
-        <span class="category">9.975% QST:</span>
-        <span class="price">$3.55 CAD</span>
+        <span class="category">Total:</span>
+        <span class="price">{{ roomPrice+foodPrice }}/-</span>
       </div>
       <div class="total">
-        <span class="category"><b>Total:</b></span>
-        <span class="price"><b>$40.92 CAD</b></span>
+        <span class="category"><b>Booking Amount(20%)</b></span>
+        <span class="price"><b>{{ payable }}</b></span>
       </div>
     </div>
-    <button type="submit">Pay Now</button>
-
+{#<form action="/paymentDone" method="POST">#}
+    <input id = "sButton" class="button" type="submit" value="Pay Now" />
+{#</form>#}
   </form>
 </div>
+
 
 </body>
 <script src="{{ url_for('static',filename='/js/Payment.js') }}" crossorigin="anonymous"></script>
