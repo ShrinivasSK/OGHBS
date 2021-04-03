@@ -5,6 +5,7 @@ from app import FoodOptions
 from app import Booking
 from app import BookingQueue
 from app import User
+from app import Authentication
 
 # st = ""
 # for i in range(100):
@@ -63,6 +64,17 @@ from app import User
 #     gender = db.Column(db.String(20))
 #     rollStd = db.Column(db.String(20), nullable=True)
 
-admin = User(id=0, name="admin", username="admin", password="admin", address="", age=21, gender="Male", rollStd="")
-db.session.add(admin)
-db.session.commit()
+# admin = User(id=0, name="admin", username="admin", password="admin", address="", age=21, gender="Male", rollStd="")
+# db.session.add(admin)
+# db.session.commit()
+
+users = User.query.all()
+auth = Authentication.query.all()
+for i in users:
+    print(i.id)
+    print(i.username)
+    print(i.password)
+for i in auth:
+    print(i.id)
+    print(i.val)
+

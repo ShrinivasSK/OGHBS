@@ -65,10 +65,6 @@
         <div class="buttonDiv">
             <button class="button">Canceled!</button>
         </div>
-        {% elif i.confirmation==4 %}
-        <div class="buttonDiv">
-            <button class="button">FeedBack</button>
-        </div>
         {% else %}
         <div class="buttonDiv">
             <a href="{{ url_for('cancelBooking', bookingId=i.id) }}" class="room_features--book-btn"><button class="button">Cancel</button></a>

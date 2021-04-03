@@ -74,6 +74,10 @@ class Booking(db.Model):
     confirmation = db.Column(db.Integer)
     feedback = db.Column(db.String(100))
 
+class Authentication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    val = db.Column(db.Integer)
+
 # prevent cached responses
 if app.config["DEBUG"]:
     @app.after_request
@@ -102,12 +106,16 @@ def hello_world():
             global curUserId
             curUserId = user.id
             if user.id == 0:
-                return render_template('admin.html')
+                return admin()
             else:
+                authstat = Authentication.query.filter_by(id=user.id).first()
+                print(authstat.val)
+                if authstat.val != 1:
+                    return render_template('index.html', flag=authstat.val)
                 return render_template('calender.html')
         else:
-            return render_template('index.html', flag=0)
-    return render_template('index.html', flag=1)
+            return render_template('index.html', flag=1)
+    return render_template('index.html', flag=3)
 
 
 @app.route('/regForm', methods=["POST", "GET"])
@@ -125,6 +133,9 @@ def reg_form():
         user = User.query.filter_by(username=request.form['username']).first()
         if user is None:
             newUser = User(id=nextId, name=name, username=username, password=password, address=address, age=age, gender=gender, rollStd=rollStd)
+            newRequest = Authentication(id=nextId, val=0)
+            db.session.add(newRequest)
+            db.session.commit()
         else:
             return render_template('regform.html', flag=0)
         # push to db
@@ -409,11 +420,17 @@ def cancelBooking(bookingId):
 
     booking.confirmation = 3
     db.session.commit()
+    if curUserId == 0:
+        return adminPrevBooking()
     return prevBookings()
 
 @app.route('/admin', methods=["POST", "GET"])
 def admin():
-    return render_template('admin.html')
+    allReq = Authentication.query.filter_by(val=0)
+    users = []
+    for req in allReq:
+        users.append(User.query.filter_by(id=req.id).first())
+    return render_template('admin.html', users=users)
 
 @app.route('/adminCalendar', methods=["POST", "GET"])
 def adminCalender():
@@ -421,9 +438,20 @@ def adminCalender():
 
 @app.route('/adminPrevBooking', methods=["POST", "GET"])
 def adminPrevBooking():
-    return render_template('adminPrevBooking.html')
+    bookings = Booking.query.all()
+    user = [User.query.filter_by(id=i.userId).first() for i in bookings]
+    rooms = [Rooms.query.filter_by(id=i.roomId).first() for i in bookings]
+    prices = [BookingPrice(i) for i in bookings]
+    return render_template('adminPrevBooking.html', bookings=bookings, user=user, rooms=rooms, prices=prices)
 
-
+@app.route('/authorize/<userId>/<desc>', methods=["POST", "GET"])
+def authorize(userId, desc):
+    userId = int(userId)
+    desc = int(desc)
+    userVal = Authentication.query.filter_by(id=userId).first()
+    userVal.val = desc
+    db.session.commit()
+    return admin()
 
 
 
