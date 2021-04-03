@@ -2,6 +2,9 @@ from app import db
 from app import Rooms
 from app import GuestHouse
 from app import FoodOptions
+from app import Booking
+from app import BookingQueue
+from app import User
 
 # st = ""
 # for i in range(100):
@@ -40,3 +43,26 @@ from app import FoodOptions
 #
 # print(FoodOptions.query.count())
 
+# rooms = Rooms.query.all()
+# for i in rooms:
+#     i.status = st
+#
+# db.session.commit()
+#
+# num_rows_deleted = db.session.query(Booking).delete()
+# num_rows_deleted = db.session.query(BookingQueue).delete()
+# db.session.commit()
+
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(30))
+#     username = db.Column(db.String(20))
+#     password = db.Column(db.String(20))
+#     address = db.Column(db.String(100))
+#     age = db.Column(db.Integer)
+#     gender = db.Column(db.String(20))
+#     rollStd = db.Column(db.String(20), nullable=True)
+
+admin = User(id=0, name="admin", username="admin", password="admin", address="", age=21, gender="Male", rollStd="")
+db.session.add(admin)
+db.session.commit()

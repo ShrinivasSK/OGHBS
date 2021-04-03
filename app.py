@@ -101,7 +101,10 @@ def hello_world():
         if user is not None and user.password == request.form['password']:
             global curUserId
             curUserId = user.id
-            return render_template('calender.html')
+            if user.id == 0:
+                return render_template('admin.html')
+            else:
+                return render_template('calender.html')
         else:
             return render_template('index.html', flag=0)
     return render_template('index.html', flag=1)
@@ -315,23 +318,30 @@ def paymentDone():
     else:
         roomQueue = BookingQueue.query.filter_by(id=roomId).first()
         if roomQueue is None:
+            print("first")
             newId = str(nextId)
-            newId.rjust(4, '0')
-            tempStatus=newId
-            tempStatus.ljust(40, '0')
+            newId = newId.rjust(4, '0')
+            tempStatus = newId
+            tempStatus = tempStatus.ljust(40, '0')
             temp = BookingQueue(id=roomId, bookingIds=tempStatus)
+            print(tempStatus)
             db.session.add(temp)
             db.session.commit()
         else:
+            print("second")
             here = 36
             newId = str(nextId)
-            newId.rjust(4, '0')
+            newId = newId.rjust(4, '0')
+            print("reserving")
+            print(roomQueue)
+            print(roomQueue.bookingIds)
             for idx in range(0, 40, 4):
                 checker = roomQueue.bookingIds[idx:idx+4]
+                print(checker)
                 if int(checker) == 0:
                     here = idx
                     break
-            newstatus = roomQueue.bookingIds[:here] + newId + (roomQueue[here+4:] if here+4 < 39 else "")
+            newstatus = roomQueue.bookingIds[:here] + newId + (roomQueue.bookingIds[here+4:] if here+4 < 39 else "")
             roomQueue.bookingIds = newstatus
             db.session.commit()
 
@@ -345,7 +355,26 @@ def paymentDone():
 
     return prevBookings()
 
-
+def BookAvailable(bookingId):
+    booking = Booking.query.filter_by(id=bookingId).first()
+    if booking is None:
+        return False
+    checkInDate = booking.checkInDate
+    checkOutDate = booking.checkOutDate
+    room = Rooms.query.filter_by(id=booking.roomId).first()
+    temp = checkInDate.day - datetime.now().day
+    checkInIndex = temp
+    temp = checkOutDate.day - datetime.now().day
+    checkOutIndex = temp
+    if checkInIndex < 0 or checkOutIndex < 0:
+        return False
+    for i in room.status[checkInIndex:checkOutIndex+1]:
+        if i == '1':
+            return False
+    booking.confirmation = 1
+    db.session.commit()
+    changeRoom(booking.roomId, checkInDate, checkOutDate, '1')
+    return True
 
 @app.route('/cancelBooking<bookingId>', methods=["POST", "GET"])
 def cancelBooking(bookingId):
@@ -360,27 +389,40 @@ def cancelBooking(bookingId):
             checker = roomQueue.bookingIds[idx:idx + 4]
             if int(checker) != booking.id:
                 tempIds += checker
-        tempIds.ljust(40, '0')
+        tempIds = tempIds.ljust(40, '0')
         roomQueue.bookingIds = tempIds
         db.session.commit()
     else:
         changeRoom(roomId, booking.checkInDate, booking.checkOutDate, '0')
         roomQueue = BookingQueue.query.filter_by(id=roomId).first()
         if roomQueue is not None:
-            tempIds = roomQueue.bookingIds[4:40]
-            tempIds.ljust(40, '0')
-            confId = int(roomQueue.bookingIds[0:4])
-            confBooking = Booking.query.filter_by(id=confId).first()
-            if confBooking is not None:
-                confBooking.confirmation = 1
-                db.session.commit()
-                changeRoom(confBooking.roomId, confBooking.checkInDate, confBooking.checkOutDate, '1')
-            roomQueue.bookingIds = tempIds
+            tempiDs = ""
+            for idx in range(0, 40, 4):
+                checker = roomQueue.bookingIds[idx:idx + 4]
+                if BookAvailable(int(checker)):
+                    pass
+                else:
+                    tempiDs += checker
+            tempiDs = tempiDs.ljust(40, '0')
+            roomQueue.bookingIds = tempiDs
             db.session.commit()
 
     booking.confirmation = 3
     db.session.commit()
     return prevBookings()
+
+@app.route('/admin', methods=["POST", "GET"])
+def admin():
+    return render_template('admin.html')
+
+@app.route('/adminCalendar', methods=["POST", "GET"])
+def adminCalender():
+    return render_template('adminCalendar.html')
+
+@app.route('/adminPrevBooking', methods=["POST", "GET"])
+def adminPrevBooking():
+    return render_template('adminPrevBooking.html')
+
 
 
 
