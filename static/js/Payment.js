@@ -1,3 +1,18 @@
+// $(document).ready(function () {
+//   console.log("ready")
+//   $('#sButton input[type="button"]').click(function(e) {
+//       // 'this' Returns the button clicked:
+//       // <input id="btn1" type="button" value="Add">
+//       // You can bling this to get the jQuery object of the button clicked
+//       // e.g.: $(this).attr('id'); to get the ID: #btn1
+//       console.log("Pay");
+//
+//       // Returns the click event object of the button clicked.
+//       console.log(e);
+//   });
+// });
+
+
 document.addEventListener("DOMContentLoaded", e => {
   let card_number_input = document.querySelector("form fieldset.card-number input"),
       card_number_display = document.querySelector("div#card .card-number");
@@ -82,4 +97,5 @@ document.addEventListener("DOMContentLoaded", e => {
     e.preventDefault();
   }
 });
+
 

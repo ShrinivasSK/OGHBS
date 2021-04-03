@@ -19,12 +19,20 @@ html {
 	 margin: 50px auto;
 }
  .row {
-	 padding: 0 10rem;
+	 padding: 0 5rem;
 	 margin-top: 1em;
 	 width: 100%;
 	 float:  right;
-	 display: inline-block;
+	 /*flex-grow: 4;*/
+	 /*display: inline-block;*/
 }
+ .main{
+	 position: absolute;
+	 left: 23%;
+	 display: inline-block;
+	 width: 70%;
+	 /*flex-grow: 4;*/
+ }
  .room {
 	 width: 100%;
 	 height: auto;
@@ -320,15 +328,19 @@ input[type=radio]:checked ~ label{
 
 /* Left Column */
 
-.complete{
+/*.complete{*/
+/*	display: inline-block;*/
+/*}*/
+
+.available{
 	display: flex;
 }
 
 .leftColumn{
-	width: 100%;
+	position: absolute;
+	top: 10px;
+	display: inline-block;
+	width: 20%;
+	/*flex-grow: 2;*/
 	margin: 0 2rem;
-}
-
-.available{
-	display: flex;
 }

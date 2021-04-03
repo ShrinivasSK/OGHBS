@@ -119,8 +119,36 @@ h4 {
     padding: 0 1rem;
     margin: 0.5rem 0.5rem;
     font-size: 1.5rem;
-<<<<<<< HEAD
 }
-=======
+
+.nav{
+    width:50%;
+    margin:auto;
 }
->>>>>>> 6c7452b1e35f0ccec08df8468ecea55b90b09355
+ul {
+  display: flex;
+  list-style-type: none;
+  /*margin: 0 100px;*/
+  font: 17px helvetica;
+  text-align: center;
+}
+
+ li {
+  flex: 1;
+  border-style: solid;
+  height: 65px;
+  background: #1a1a1a;
+}
+
+a {
+  position: relative;
+  top: 23px;
+  text-decoration: none;
+  color: white;
+}
+
+ li:hover {
+  flex:1.1;
+  transition:all .3s ease;
+}
+

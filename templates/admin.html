@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/admin.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="layout">
+        <input name="nav" type="radio" class="nav home-radio" id="home" checked="checked" />
+        <div class="page home-page">
+            <div class="bookingBox">
+                <div>
+                    <img src="https://cdn.icon-icons.com/icons2/1674/PNG/512/person_110935.png" width="300px" height="300px" />
+                </div>
+                <div class="center">
+                    <div class="bookingId">
+                        <h2>Username</h2>
+                    </div>
+                    <div class="bookingDates">
+                        <div class="date">
+                            <h3>Name</h3>
+                            <h4>Vinit Raj</h4>
+                        </div>
+                        <div class="date">
+                            <h3>Age</h3>
+                            <h4>35</h4>
+                        </div>
+                        <div class="date">
+                            <h3>Gender</h3>
+                            <h4>Male</h4>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="date">
+                            <h3>Address</h3>
+                            <h4>Plot 19-H, Parijat Nagar, N-4 CIDCO, Aurangabad</h4>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="date">
+                            <h3>Student's Roll number: </h3>
+                            <h4>2</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttonDiv">
+                    <button class="button">Deny</button>
+                    <button class="button">Authorize</button>
+                </div>
+            </div>
+        </div>
+        <label class="nav" for="home">
+        <span>
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Home
+        </span>
+    </label>
+
+    <input name="nav" type="radio" class="about-radio" id="about" />
+        <div class="page about-page">
+            <form action="/viewrooms" method="POST">
+                <div class="flex-container">
+
+                    <div class="checkin">
+                        <label for="checkintime">Check-In Time</label>
+                        <input type="date" name="checkintime" id="checkintime" placeholder="YYYY-DD-MM">
+                    </div>
+                    <div class="space">
+
+                    </div>
+                    <div class="checkout">
+                        <label for="checkouttime">Check-Out Time</label>
+                        <input type="date" name="checkouttime" id="checkouttime" placeholder="YYYY-DD-MM">
+                    </div>
+
+                    <button id="hello" class="buttonCalendar" type="submit">Search</button>
+
+                </div>
+            </form>
+        </div>
+        <label class="nav" for="about">
+        <span>
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12" y2="17"></line></svg>
+        About
+        </span>
+        </label>
+
+    </div>
+
+
+
+
+</body>
+
+</html>

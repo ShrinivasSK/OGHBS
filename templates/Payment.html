@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <form id="form" autocomplete="off" action="/paymentDone" method="POST">
+  <div id="form" autocomplete="off">
     <header>
       <h2 style="font-family: 'Montserrat', sans-serif;">Payment Information</h2>
     </header>
@@ -125,14 +125,16 @@
         <span class="category"><b>Booking Amount(20%)</b></span>
         <span class="price"><b>{{ payable }}</b></span>
       </div>
-    </div>
-{#<form action="/paymentDone" method="POST">#}
-    <input id = "sButton" class="button" type="submit" value="Pay Now" />
-{#</form>#}
-  </form>
+      <form action="/paymentDone" method="POST">
+          <input class="button" id="sButton" type="submit" value="Pay Now" />
+      </form>
 </div>
+  </div>
+    </div>
+
 
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="{{ url_for('static',filename='/js/Payment.js') }}" crossorigin="anonymous"></script>
 </html>

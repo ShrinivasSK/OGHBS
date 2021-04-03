@@ -15,6 +15,10 @@ foodId = '0'
 availableOnly = '0'
 roomId = 0
 
+emptystatus = ""
+for i in range(40):
+    emptystatus+="0"
+
 # user database
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -53,6 +57,22 @@ class FoodOptions(db.Model):
     pricePerDay = db.Column(db.Integer)
     type = db.Column(db.String(40))
 
+
+class BookingQueue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bookingIds = db.Column(db.String(40))
+
+
+class Booking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer)
+    roomId = db.Column(db.Integer)
+    foodId = db.Column(db.Integer)
+    checkInDate = db.Column(db.DateTime)
+    checkOutDate = db.Column(db.DateTime)
+    dateOfBooking = db.Column(db.DateTime)
+    confirmation = db.Column(db.Integer)
+    feedback = db.Column(db.String(100))
 
 # prevent cached responses
 if app.config["DEBUG"]:
@@ -117,10 +137,10 @@ def reg_form():
 def checkAvailable(room):
     global checkInDate
     global checkOutDate
-    temp = checkInDate - datetime.now()
-    checkInIndex = temp.days
-    temp = checkOutDate - datetime.now()
-    checkOutIndex = temp.days
+    temp = checkInDate.day - datetime.now().day
+    checkInIndex = temp
+    temp = checkOutDate.day - datetime.now().day
+    checkOutIndex = temp
     if checkInIndex < 0 or checkOutIndex < 0:
         return False
     for i in room.status[checkInIndex:checkOutIndex+1]:
@@ -133,6 +153,7 @@ rooms = []
 avail = []
 days = []
 urls = []
+roomAvail = []
 
 @app.route('/viewrooms', methods=["POST", "GET"])
 def ViewRooms():
@@ -145,6 +166,7 @@ def ViewRooms():
     global avail
     global days
     global urls
+    global roomAvail
 
     if 'availableOnly' in request.form:
         print("checking availability")
@@ -204,8 +226,8 @@ def ViewRooms():
                 for i in rooms:
                     i.pricePerDay += foodItem.pricePerDay
         curdate = datetime.now()
-        startDay = max(curdate, checkInDate-timedelta(days=3)) - curdate
-        startIdx = startDay.days
+        startDay = max(curdate, checkInDate-timedelta(days=3)).day - curdate.day
+        startIdx = startDay
         startdate = max(curdate, checkInDate-timedelta(days=3))
         for i in range(7):
             temp = startdate + timedelta(days=i)
@@ -213,12 +235,18 @@ def ViewRooms():
         for room in rooms:
             temp = []
             urls.append("/room/"+str(room.id))
+            print(room.status)
             for j in range(7):
                 temp.append(int(room.status[startIdx+j]))
             avail.append(temp)
 
+    print(avail)
     print(len(rooms))
-    return render_template('Booking.html', rooms=rooms, avail=avail, days=days, urls=urls, availableOnly=availableOnly, srt=srt, foodId=foodId)
+    roomAvail = [0]*len(rooms)
+    for i, room in enumerate(rooms):
+        roomAvail[i] = 1 if checkAvailable(room) else 0
+    print(roomAvail)
+    return render_template('Booking.html', rooms=rooms, avail=avail, days=days, urls=urls, availableOnly=availableOnly, srt=srt, foodId=foodId, roomAvail=roomAvail)
 
 
 @app.route('/room/<roomid>', methods=["POST", "GET"])
@@ -229,19 +257,131 @@ def room(roomid):
     print(roomId)
     roomBook = Rooms.query.filter_by(id=roomId).first()
     foodBook = FoodOptions.query.filter_by(id=foodId).first()
-    roomPrice = roomBook.pricePerDay*((checkOutDate-checkInDate).days+1)
+    roomPrice = roomBook.pricePerDay*((checkOutDate.day-checkInDate.day)+1)
     foodPrice = 0
     if foodBook is not None:
-        foodPrice = foodBook.pricePerDay*((checkOutDate-checkInDate).days+1)
+        foodPrice = foodBook.pricePerDay*((checkOutDate.day-checkInDate.day)+1)
 
     payable = 0.2*(roomPrice+foodPrice)
     return render_template('Payment.html', roomPrice=roomPrice, foodPrice=foodPrice, payable=payable)
 
 
+def BookingPrice(booking):
+    food = FoodOptions.query.filter_by(id=booking.foodId).first()
+    room = Rooms.query.filter_by(id=booking.roomId).first()
+    noOfDays = ((booking.checkOutDate.day-booking.checkInDate.day)+1)
+    price = room.pricePerDay*noOfDays
+    if food is not None:
+        price += food.pricePerDay*noOfDays
+    return 0.2*price
+
+@app.route('/calender', methods=["POST", "GET"])
+def calender():
+    return render_template('calender.html')
+
+@app.route('/prevBookings', methods=["POST", "GET"])
+def prevBookings():
+    bookings = Booking.query.filter_by(userId=curUserId).all()
+    user = User.query.filter_by(id=curUserId).first()
+    rooms = [Rooms.query.filter_by(id=i.roomId).first() for i in bookings]
+    prices = [BookingPrice(i) for i in bookings]
+    return render_template('prevBooking.html', bookings=bookings, user=user, rooms=rooms, prices=prices)
+
+def changeRoom(roomId, checkInDate, checkOutDate, val):
+    temp = checkInDate.day - datetime.now().day
+    checkInIndex = temp
+    temp = checkOutDate.day - datetime.now().day
+    checkOutIndex = temp
+    room = Rooms.query.filter_by(id=roomId).first()
+    print("start " + str(checkInDate))
+    print("end " + str(checkOutDate))
+    print("start " + str(checkInIndex))
+    print("end " + str(checkOutIndex))
+    newstatus = room.status[0:checkInIndex] + val*(checkOutIndex-checkInIndex+1) + room.status[checkOutIndex+1:]
+    room.status = newstatus
+    db.session.commit()
+
 @app.route('/paymentDone', methods=["POST", "GET"])
 def paymentDone():
     print("PaymentDone")
-    return render_template('calender.html')
+    nextId = Booking.query.count() + 1
+    curRoom = Rooms.query.filter_by(id=roomId).first()
+    conf = 1 if checkAvailable(curRoom) else 0
+    roomQueue = BookingQueue.query.filter_by(id=roomId).first()
+    if checkAvailable(curRoom):
+        changeRoom(roomId, checkInDate, checkOutDate, '1')
+        print(curRoom.status)
+    else:
+        roomQueue = BookingQueue.query.filter_by(id=roomId).first()
+        if roomQueue is None:
+            newId = str(nextId)
+            newId.rjust(4, '0')
+            tempStatus=newId
+            tempStatus.ljust(40, '0')
+            temp = BookingQueue(id=roomId, bookingIds=tempStatus)
+            db.session.add(temp)
+            db.session.commit()
+        else:
+            here = 36
+            newId = str(nextId)
+            newId.rjust(4, '0')
+            for idx in range(0, 40, 4):
+                checker = roomQueue.bookingIds[idx:idx+4]
+                if int(checker) == 0:
+                    here = idx
+                    break
+            newstatus = roomQueue.bookingIds[:here] + newId + (roomQueue[here+4:] if here+4 < 39 else "")
+            roomQueue.bookingIds = newstatus
+            db.session.commit()
+
+    newBooking = Booking(id=nextId, userId=curUserId, roomId=roomId, foodId=foodId, checkInDate=checkInDate, checkOutDate=checkOutDate, dateOfBooking=datetime.now().date(), confirmation=conf, feedback="")
+    try:
+        db.session.add(newBooking)
+        db.session.commit()
+        print("Booking added successfully")
+    except:
+        print("failed to add Booking to db")
+
+    return prevBookings()
+
+
+
+@app.route('/cancelBooking<bookingId>', methods=["POST", "GET"])
+def cancelBooking(bookingId):
+    print("Cancelling")
+    booking = Booking.query.filter_by(id=bookingId).first()
+    roomId = booking.roomId
+    queue = BookingQueue.query.filter_by(id=roomId).first()
+    if booking.confirmation == 0:
+        roomQueue = BookingQueue.query.filter_by(id=roomId).first()
+        tempIds = ""
+        for idx in range(0, 40, 4):
+            checker = roomQueue.bookingIds[idx:idx + 4]
+            if int(checker) != booking.id:
+                tempIds += checker
+        tempIds.ljust(40, '0')
+        roomQueue.bookingIds = tempIds
+        db.session.commit()
+    else:
+        changeRoom(roomId, booking.checkInDate, booking.checkOutDate, '0')
+        roomQueue = BookingQueue.query.filter_by(id=roomId).first()
+        if roomQueue is not None:
+            tempIds = roomQueue.bookingIds[4:40]
+            tempIds.ljust(40, '0')
+            confId = int(roomQueue.bookingIds[0:4])
+            confBooking = Booking.query.filter_by(id=confId).first()
+            if confBooking is not None:
+                confBooking.confirmation = 1
+                db.session.commit()
+                changeRoom(confBooking.roomId, confBooking.checkInDate, confBooking.checkOutDate, '1')
+            roomQueue.bookingIds = tempIds
+            db.session.commit()
+
+    booking.confirmation = 3
+    db.session.commit()
+    return prevBookings()
+
+
 
 
 if __name__ == '__main__':
