@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Title</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 
-	<link rel="stylesheet" href="{{ url_for('static',filename='/css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/index.css') }}">
 </head>
 
 <body>
@@ -13,7 +13,7 @@
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
                 <h2>KGP Guest House</h2>
-{#                <img src="https://assets.codepen.io/285131/acme-2.svg" />#}
+                {# <img src="https://assets.codepen.io/285131/acme-2.svg" />#}
             </div>
 
             <nav class="header-navigation">
@@ -26,78 +26,64 @@
             </nav>
         </div>
     </header>
-    <img class="backImage" src="https://www.tajhotels.com/content/dam/luxury/hotels/taj-hotel-convention-centre/DeluxeRoomKingBedroom.jpg"/>
-	<div class="container" id="container">
-{#		<div class="form-container sign-up-container">#}
-{#			<form action="#">#}
-{#				<h1>Create Account</h1>#}
-{#				<div class="social-container">#}
-{#					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>#}
-{#					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>#}
-{#					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>#}
-{#				</div>#}
-{#				<span>or use your email for registration</span>#}
-{#				<input type="text" placeholder="Name" />#}
-{#				<input type="email" placeholder="Email" />#}
-{#				<input type="password" placeholder="Password" />#}
-{#				<button>Sign Up</button>#}
-{#			</form>#}
-{#		</div>#}
-		<div class="form-container sign-in-container">
-			<form action="/" method="POST">
-				<h1 class="margin">Sign in</h1>
-{#				<div class="social-container">#}
-{#					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>#}
-{#					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>#}
-{#					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>#}
-{#				</div>#}
-{#				<span>or use your account</span>#}
-                {% if flag == 0 %}
-                    <span>username or password wrong !!</span>
-                {% endif %}
-				<input type="text" name="username" id="email" placeholder="UserName" />
-				<input type="password" name="password" id="password" placeholder="Password" />
-{#				<a href="#">Forgot your password?</a>#}
-				<!--<button id="login">Sign In</button>-->
+    <img class="backImage" src="https://www.tajhotels.com/content/dam/luxury/hotels/taj-hotel-convention-centre/DeluxeRoomKingBedroom.jpg" />
+    <div class="container" id="container">
+        {#
+        <div class="form-container sign-up-container">#} {#
+            <form action="#">#} {#
+                <h1>Create Account</h1>#} {#
+                <div class="social-container">#} {# <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>#} {# <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>#} {# <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>#} {# </div>#} {# <span>or use your email for registration</span>#}
+                {# <input type="text" placeholder="Name" />#} {# <input type="email" placeholder="Email" />#} {# <input type="password" placeholder="Password" />#} {# <button>Sign Up</button>#} {# </form>#} {# </div>#}
+        <div class="form-container sign-in-container">
+            <form action="/" method="POST">
+                <h1 class="margin">Sign in</h1>
+                {#
+                <div class="social-container">#} {# <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>#} {# <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>#} {# <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>#} {# </div>#} {# <span>or use your account</span>#}
+                {% if flag == 0%}
+                <span>waiting Authentication !!</span> {% elif flag == 1 %}
+                <span>username or password wrong !!</span> {% elif flag == 2 %}
+                <span>Authentication denied !!</span> {% endif %}
+                <input type="text" name="username" id="email" placeholder="UserName" />
+                <input type="password" name="password" id="password" placeholder="Password" /> {# <a href="#">Forgot your password?</a>#}
+                <!--<button id="login">Sign In</button>-->
                 <input class="button margin" id="login" type="submit" value="Sign In" />
-			</form>
-		</div>
-		<div class="overlay-container">
-			<div class="overlay">
-{#				<div class="overlay-panel overlay-left">#}
-{#					<h1>Welcome Back!</h1>#}
-{#					<p>To keep connected with us please login with your personal info</p>#}
-{#					<button class="ghost" id="signIn">Sign In</button>#}
-{#				</div>#}
-				<div class="overlay-panel overlay-right">
-					<h1>Hello!</h1>
-					<p>Enter your personal details and start journey with us</p>
-					<a href="regForm"><button class="ghost" id="signUp">Sign Up</button></a>
-				</div>
-			</div>
-		</div>
-	</div>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                {#
+                <div class="overlay-panel overlay-left">#} {#
+                    <h1>Welcome Back!</h1>#} {#
+                    <p>To keep connected with us please login with your personal info</p>#} {# <button class="ghost" id="signIn">Sign In</button>#} {# </div>#}
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <a href="regForm"><button class="ghost" id="signUp">Sign Up</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="guestHouses">
-		<div class="guestHouse">
-			<img class="guestHouseImg" src={{ url_for('static',filename='/images/tghfront.jpg') }}/>
-			<div class="textBox">
-				<div class="guestHouseName">Technology Guest House</div>
-			</div>
-		</div>
-		<div class="guestHouse">
-			<div class="textBox">
-				<div class="guestHouseName">Visveswaraya Guest House</div>
-			</div>
-			<img class="guestHouseImg" src={{ url_for('static',filename='/images/vgh.jpg') }}/>
-		</div>
-		<div class="guestHouse">
-			<img class="guestHouseImg" src={{ url_for('static',filename='/images/kolkata1.jpg') }}/>
-			<div class="textBox">
-				<div class="guestHouseName">Kolkata Guest House</div>
-			</div>
-		</div>
-	</div>
+    <div class="guestHouses">
+        <div class="guestHouse">
+            <img class="guestHouseImg" src={{ url_for( 'static',filename='/images/tghfront.jpg' ) }}/>
+            <div class="textBox">
+                <div class="guestHouseName">Technology Guest House</div>
+            </div>
+        </div>
+        <div class="guestHouse">
+            <div class="textBox">
+                <div class="guestHouseName">Visveswaraya Guest House</div>
+            </div>
+            <img class="guestHouseImg" src={{ url_for( 'static',filename='/images/vgh.jpg' ) }}/>
+        </div>
+        <div class="guestHouse">
+            <img class="guestHouseImg" src={{ url_for( 'static',filename='/images/kolkata1.jpg' ) }}/>
+            <div class="textBox">
+                <div class="guestHouseName">Kolkata Guest House</div>
+            </div>
+        </div>
+    </div>
 
 </body>
 <script src="{{ url_for('static',filename='/js/index.js') }}"></script>

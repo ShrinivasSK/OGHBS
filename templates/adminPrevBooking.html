@@ -10,15 +10,15 @@
 </head>
 
 <body>
-<div class="nav">
-    <ul class="navigation">
-        <li><a href="/admin">Authorize Users</a></li>
-      <li><a href="/adminCalendar">View Rooms</a></li>
-      <li><a href="/adminPrevBooking">All Bookings</a></li>
+    <div class="nav">
+        <ul class="navigation">
+            <li><a href="/admin">Authorize Users</a></li>
+            <li><a href="/adminCalendar">View Rooms</a></li>
+            <li><a href="/adminPrevBooking">All Bookings</a></li>
 
-    </ul>
-</div>
-{% for i in bookings %}
+        </ul>
+    </div>
+    {% for i in bookings %}
     <div class="bookingBox">
         <div>
             <div class="bookingId">
@@ -57,7 +57,7 @@
             <div class="status">
                 <div class="date">
                     <h3 class="status">Status: </h3>
-                    <h4 class="amount">{% if i.confirmation==0 %} in Queue {% elif  i.confirmation==1 %} Confirmed {% else %} Cancelled {% endif %}</h4>
+                    <h4 class="amount">{% if i.confirmation==0 %} in Queue {% elif i.confirmation==1 %} Confirmed {% else %} Cancelled {% endif %}</h4>
                 </div>
             </div>
         </div>
@@ -65,17 +65,13 @@
         <div class="buttonDiv">
             <button class="button">Canceled!</button>
         </div>
-        {% elif i.confirmation==4 %}
-        <div class="buttonDiv">
-            <button class="button">FeedBack</button>
-        </div>
         {% else %}
         <div class="buttonDiv">
             <a href="{{ url_for('cancelBooking', bookingId=i.id) }}" class="room_features--book-btn"><button class="button">Cancel</button></a>
         </div>
         {% endif %}
     </div>
-{% endfor %}
+    {% endfor %}
 
 </body>
 
