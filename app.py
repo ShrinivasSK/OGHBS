@@ -232,6 +232,7 @@ def ViewRooms():
         for i in range(7):
             temp = startdate + timedelta(days=i)
             days.append(temp.day)
+        avail = []
         for room in rooms:
             temp = []
             urls.append("/room/"+str(room.id))
