@@ -1,0 +1,202 @@
+TEST SUITE
+Online Guest House Booking System
+
+UNIT TESTS FOR THE FOLLOWING FEATURES
+
+I. Registration process and verification of user data
+
+    Test Scenarios:
+
+    1. New Registration with username and email that does not already exist
+        Input: “User1”,”user_email@gmail.com”,”password”,”Male”,”India”,”123 Street, XYZ Block, CityX, StateY”
+        Golden Output: Record Successfully created in Database
+
+    2. New Registration with username that already exists
+        Input: “User1”,”user_email@gmail.com”,”password”,”Male”,”India”,”123 Street, XYZ Block, CityX, StateY”
+        Golden Output: ERROR: Username already exists
+
+    3. New Registration with email that already exists
+        Input: “User1”,”user_email@gmail.com”,”password”,”Male”,”India”,”123 Street, XYZ Block, CityX, StateY”
+        Golden Output: ERROR: Email already exists
+
+II. Login system and security of login process.
+
+    Test Scenarios:
+
+    1. Username and Password pair present in Database
+        Input: "User1", "Password"
+        Golden Output: User Successfully Logged Input
+
+    2. User enters wrong Username
+        Input: "User1", "Password"
+        Output: Wrong Username or Password
+    
+    3. User enters wrong Password
+        Input: "User1", "Password"
+        Output: Wrong Username or Password
+
+III. Searching rooms by dates
+    
+    Data: 
+        RoomType 1: Not Booked at all. 
+        RoomType 2: Booked from 10/4/2021 to 13/14/2021. Free rest of the times.
+        RoomType 3: Booked from 10/4/2021 to 15/14/2021. Free rest of the times.
+        RoomType 4: Booked from 15/4/2021 to 20/14/2021. Free rest of the times.
+        RoomType 5: Booked from 16/4/2021 to 20/14/2021. Free rest of the times.
+        RoomType 6: Booked from 6/4/2021 to 10/14/2021. Free rest of the times.
+        RoomType 7: Booked from 6/4/2021 to 9/14/2021. Free rest of the times.
+
+    Test Scenarios:
+    
+    1. User enters valid dates
+        Input: "10/4/2021","15/4/2021"
+        Here we are covering various cases where the room is booked partially in the given period or only on the first day or only on the last (the border cases)
+        Output: RoomType 1, RoomType 5, RoomType 7
+    
+    2. The similar situation is manually tested on the system GUI
+        Input: The user enter the dates
+        Output: Similar output is generated.
+
+    3. If the End Date is before the Start Date
+        Input: "15/4/2021", "10/4/2021"
+        Output: ERROR: End date should be after the begin date
+        Note: This situation will be handled by the GUI too by not displaying such dates in the calendar input. But this check is done just to be sure that no error pops up.
+
+    4. If the start date is before the current Date
+        Lets say today is 25/3/2021.
+        Input: "23/3/2021","30/3/2021"
+        Output: ERROR: Start date should be after today. 
+        Note: This situation will be handled by the GUI too by not displaying such dates in the calendar input. But this check is done just to be sure that no error pops up.
+    
+    5. If End Date is 100 days after the current Date
+        Lets say today is 25/3/2021.
+        Input: "15/7/2021","20/7/2021"
+        Output: ERROR: System allows booking only 100 days in advance. Come again later. 
+
+IV. Food Option Selection
+
+    This is tested manually
+
+    Test Scenarios:
+
+    1. Food Option is selected
+        Input: After the room list is displayed the user selects the "Book Food" option check box.
+        Output: The Checkbox gets ticked and its value gets updated in the system
+    
+    2. Food Option is unselected
+        Input: After the room list is displayed the user selects the "Book Food" option check box.
+        Output: The Checkbox gets unticked and its value gets updated in the system
+
+V. Display room availability in given week
+
+    This testing will be done manually as this is a UI feature. 
+
+    Test Scenarios:
+
+    1. Difference between booking date and visit date is greater than 3 days.
+        Lets say today is 20/3/2021.
+        Input: "28/3/2021","31/3/2021"
+        Output: The UI displays availability from 25/3/2021 to 31/3/2021 with the visit date in the middle.  
+
+    2. Difference between booking date and visit date is less than equal to 3 days.
+        Lets say today is 26/3/2021.
+        Input: "28/3/2021","31/3/2021"
+        Output: The UI displays availability from 26/3/2021 to 1/4/2021. 
+
+
+VI. Sorting rooms based on total price
+
+	Test Scenarios:
+	
+		1. List of rooms with their prices
+			Input: ["room1 - 1200", "room2 - 1000", "room3 - 1500", "room4 - 800", "room5 - 900"]
+			Golden Output:   ["room4 - 800", "room5 - 900", "room2 - 1000", "room1 - 1200", "room3 - 1500"]
+
+		2. A similar situation is mannually tested on the User interface
+			Stimulus: The user selects the sort option on the side bar in of rooms page.
+			Expected Response: Rooms are displayed in sorted order of price.
+
+		3. Sorting only available rooms
+			Stimulus: The user selects Available rooms only in the sidebar in the rooms window.
+			Expected Response: All the rooms present on the interface are availabe and are in sorted order of price.
+
+		4. Trivial Case
+			Empty output when no rooms exist
+
+VII. Computation of room prices and factoring food prices-Auto
+
+	Test Scenarios:
+
+		1. When food price is zero
+			input: room price per day = 400, food option price per day = 0, number of rooms booked = 2, no of days of stay = 3
+			output: Total price = 2400
+
+		2. When a food option is chosen
+			input: room price per day = 600, food option price per day = 300, number of rooms booked = 2, no of days of stay = 3
+			output: Total price = 5400
+
+			
+VIII. Maintaining and updating room status
+
+	The system maintains the status of rooms in the next 100 days only, since it allows pre booking of 100 days only
+
+	Test Scenarios:
+
+		1. The user initiates the booking process but doesnot confirm payment		
+			stimulus: The user selects a room and in the payment page cancels or some interruption occurs
+			response: The state of the selected room remain unbooked
+
+		2. The user initiates the booking process and confirms the payment
+			stimulus: The user selects a room and confirms the payment in the next window
+			response: The state of the room changes to booked on the dates specified by the user 
+
+		3. Some user cancels his booking  
+			stimulus: The user visits the prevBookings page and cancels any of his prev bookings
+			response: The state of rooms changes to unbooked on the dates of the cancelled booking
+
+IX. Booking confirmation and Payment System-Manual
+
+	The payment system as of now is a dummy portal otherwise it would need real money for testing purposes
+
+	Test Scenarios:
+
+		1. Room is available			
+			stimulus: The user selects a available room
+			response: The system proceeds to the payment page
+
+		2. Selected room is not available
+			stimulus: The user selects a room that is already booked
+			response: The system redirects the user to the waiting queue page
+		
+		3. Successful payment
+			stimulus: The user confirms the booking and completes the payment
+			response: The system displays a confirmation message with reference number
+
+		4. Unsuccessful payment
+			stimulus: The user cancels his booking in the payment step
+			response: The system redirects the user to the main page for selecting the dates again
+
+X. Waiting queue for rooms
+
+    Testing is done manually
+
+    Test Scenarios:
+
+    1. User tries to book an unavailable room. 
+    Stimulus: When the user is willing to add his room booking to a waiting list(queue).
+    Response: The  particular room will be added to the queue and user will be directed to the payment gateway.
+
+    2. User cancels booking
+    Stimulus:When the user decides to cancel his booking.
+    Response:Room will get removed from waiting list , the user will get the refund back and then the room status gets changed.
+
+XII. Feedback system
+
+    Testing is done manually
+
+    Test Scenarios:
+    
+    1. User checks out of guest house
+    Stimulus:The user fills the form with experience details before exiting from the online portal.
+    Response:On submission the form must be stored in the database so that the manager can view the form.
+
