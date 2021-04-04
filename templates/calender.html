@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='/css/calender.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/calendar.css') }}">
 </head>
 <body>
-{#<h1>PURE CSS DATE PICKER</h1>#}
+
 <header class="header-outer">
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
@@ -24,28 +24,30 @@
             </nav>
         </div>
     </header>
+
+<img class="backImage" src="https://www.tajhotels.com/content/dam/luxury/hotels/taj-hotel-convention-centre/DeluxeRoomKingBedroom.jpg" />
+
 <div class="nav">
     <ul class="navigation">
       <li><a href="/calender">Book Now</a></li>
       <li><a href="/prevBookings">Your Booking</a></li>
     </ul>
 </div>
+
 <form action="/viewrooms" method="POST">
-<div class="flex-container">
+    <div class="flex-container">
 
-<div class="checkin">
-<label for="checkintime">Check-In Time</label>
-<input type="date" name="checkintime" id="checkintime" placeholder="YYYY-DD-MM">
-</div>
-<div class="space">
+        <div class="checkin">
+            <label class="dateLabel" for="checkintime">Check-In Time</label>
+            <input class="dateInput" type="date" name="checkintime" id="checkintime" placeholder="YYYY-DD-MM">
+        </div>
 
-</div>
-<div class="checkout">
-<label for="checkouttime">Check-Out Time</label>
-<input type="date" name="checkouttime" id="checkouttime" placeholder="YYYY-DD-MM">
-</div>
+        <div class="checkout">
+        <label class="dateLabel" for="checkouttime">Check-Out Time</label>
+        <input class="dateInput" type="date" name="checkouttime" id="checkouttime" placeholder="YYYY-DD-MM">
+        </div>
 
-   <button id="hello" type="submit">Search</button>
+        <button class="searchButton" type="submit">Search</button>
 
     </div>
 </form>

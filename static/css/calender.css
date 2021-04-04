@@ -10,14 +10,7 @@
 }
 * {margin:0;padding:0}
 
-:root {
-	--header-outer-height: 110px;
-	--header-inner-height: 70px;
-	--header-height-difference: calc(
-		var(--header-outer-height) - var(--header-inner-height)
-	);
-	--header-bg: #fff;
-}
+
 
 /* custom styles */
 body {
@@ -95,7 +88,6 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.5em;
   transition: all 0.2s cubic-bezier(.4,0,.2,1);
-
 }
 
 /* input {
@@ -139,8 +131,6 @@ button {
 /*  flex:1.1;*/
 /*  transition:all .3s ease;*/
 /*}*/
-
-
 
 
 .footer-widget p {
@@ -247,6 +237,14 @@ button {
 }
 
 /* Sticky header */
+:root {
+	--header-outer-height: 110px;
+	--header-inner-height: 70px;
+	--header-height-difference: calc(
+		var(--header-outer-height) - var(--header-inner-height)
+	);
+	--header-bg: #fff;
+}
 .header-outer {
 	z-index: 100;
 	/* Make it stick */
