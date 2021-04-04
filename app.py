@@ -23,6 +23,7 @@ for i in range(40):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
+    email = db.Column(db.String(50))
     username = db.Column(db.String(20))
     password = db.Column(db.String(20))
     address = db.Column(db.String(100))
@@ -124,6 +125,7 @@ def reg_form():
         nextId = User.query.count()+1
         print(nextId)
         name = request.form['first_name'] + request.form['last_name']
+        email = request.form['email']
         username = request.form['username']
         password = request.form['password']
         gender = request.form['gender']
@@ -131,11 +133,14 @@ def reg_form():
         address = request.form['address1']+", "+request.form['address2']+", City "+request.form['city']+", State "+request.form['state']
         rollStd = request.form['roll']
         user = User.query.filter_by(username=request.form['username']).first()
-        if user is None:
-            newUser = User(id=nextId, name=name, username=username, password=password, address=address, age=age, gender=gender, rollStd=rollStd)
+        user2 = User.query.filter_by(username=request.form['email']).first()
+        if user is None and user2 is None:
+            newUser = User(id=nextId, name=name, email=email, username=username, password=password, address=address, age=age, gender=gender, rollStd=rollStd)
             newRequest = Authentication(id=nextId, val=0)
             db.session.add(newRequest)
             db.session.commit()
+        elif user2 is not None:
+            return render_template('regform.html', flag=2)
         else:
             return render_template('regform.html', flag=0)
         # push to db

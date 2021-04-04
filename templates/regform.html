@@ -11,14 +11,15 @@
     <header class="header-outer">
 	<div class="header-inner responsive-wrapper">
 		<div class="header-logo">
-			<img src="https://assets.codepen.io/285131/acme-2.svg" />
+			<h2>KGP Guest House</h2>
 		</div>
 		<nav class="header-navigation">
-			<a href="#">Home</a>
-			<a href="#">About</a>
-			<a href="#">Contact Us</a>
-			<a href="#">Login</a>
-            <a href="#">Register</a>
+			 <a href="/">Home</a>
+      <a href="http://www.iitkgp.ac.in/">About</a>
+      <a href="http://www.iitkgp.ac.in/">Contact Us</a>
+        <a href="/">Login</a>
+          <a href="/">Register</a>
+
 			<button>Menu</button>
 		</nav>
 	</div>
@@ -29,6 +30,8 @@
         <h2>Registration</h2>
         {% if flag == 0 %}
             <span>Username taken !!</span>
+        {% elif flag == 2 %}
+            <span>Email taken !!</span>
         {% endif %}
       </div>
       <div class="row clearfix">
@@ -39,6 +42,9 @@
             </div>
             <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
               <input type="password" name="password" placeholder="Password" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+              <input type="email" name="email" placeholder="Email ID" required />
             </div>
             <div class="row clearfix">
               <div class="col_half">

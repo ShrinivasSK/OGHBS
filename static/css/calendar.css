@@ -51,12 +51,12 @@ span {
 	font-size: 12px;
 }
 
-a {
-	color: #333;
-	font-size: 14px;
-	text-decoration: none;
-	margin: 15px 0;
-}
+/*a {*/
+/*	color: #333;*/
+/*	font-size: 14px;*/
+/*	text-decoration: none;*/
+/*	margin: 15px 0;*/
+/*}*/
 
 .responsive-wrapper {
 	width: 90%;
@@ -233,7 +233,7 @@ background-color:#813d99
   /*margin: 0 100px;*/
   font: 25px helvetica;
   font-weight:bold;
-
+    font-size: 1.2rem;
   text-align: center;
 }
 
@@ -246,7 +246,7 @@ background-color:#813d99
 
 .nav a {
   position: relative;
-  top: 23px;
+  top: 15px;
   text-decoration: none;
   color: white;
 }
@@ -255,6 +255,7 @@ background-color:#813d99
   flex:1.1;
   transition:all .3s ease;
 }
+
 
 /*Footer*/
 .dk-footer {

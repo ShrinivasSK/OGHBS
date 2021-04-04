@@ -17,11 +17,8 @@
                 <h2>KGP Guest House</h2>
             </div>
             <nav class="header-navigation">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Contact Us</a>
-                <a href="#">Login</a>
-                <a href="#">Register</a>
+                <!-- <a href="http://www.iitkgp.ac.in/">About</a> -->
+                <a href="/">Logout</a>
             </nav>
         </div>
     </header>
@@ -154,7 +151,7 @@
                                     <li><span class="room_features--price"></span>{{ room.pricePerDay }}<small class="room_features--currency">/-</small></li>
                                     <!-- Price -->
                                 </ul>
-                                <a href="{{ url_for('room', roomid=room.id) }}" class="room_features--book-btn">{% if roomAvail[loop.index0]==1 %}Book Now{% else %}Reserve in Queue{% endif %}</a>
+                                <a href="{{ url_for('room', roomid=room.id) }}" class="room_features--book-btn">{% if roomAvail[loop.index0]==1 %}Book Now{% else %}<p style="color:red">Reserve in Queue</p>{% endif %}</a>
                                 <!-- Book now -->
                                 {# <input class="button" type="submit" value="BookNow" />#}
                             </div>
