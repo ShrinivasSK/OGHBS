@@ -30,7 +30,7 @@ from app import Authentication
 # for i in houses:
 #     db.session.add(i)
 #     db.session.commit()
-
+#
 # foods = [FoodOptions(id=1, pricePerDay=200, type='North Indian Veg'),
 #          FoodOptions(id=2, pricePerDay=300, type='North Indian Non-Veg'),
 #          FoodOptions(id=3, pricePerDay=250, type='South Indian Veg'),
@@ -43,6 +43,7 @@ from app import Authentication
 #     db.session.commit()
 #
 # print(FoodOptions.query.count())
+
 
 # rooms = Rooms.query.all()
 # for i in rooms:
@@ -63,7 +64,7 @@ from app import Authentication
 #     age = db.Column(db.Integer)
 #     gender = db.Column(db.String(20))
 #     rollStd = db.Column(db.String(20), nullable=True)
-
+#
 # admin = User(id=0, name="admin", username="admin", password="admin", address="", age=21, gender="Male", rollStd="")
 # db.session.add(admin)
 # db.session.commit()
