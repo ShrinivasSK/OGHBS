@@ -219,6 +219,12 @@ def ViewRooms():
             checkoutdate = datetime.strptime(request.form['checkouttime'], '%Y-%m-%d')
             checkInDate = checkindate
             checkOutDate = checkoutdate
+            if datetime.now() <= checkInDate <= checkOutDate:
+                pass
+            else:
+                if curUserId == 0:
+                    return render_template('adminCalendar.html', flag=0)
+                return render_template('calender.html', flag=0)
         print("called")
         print(checkInDate)
         print(checkOutDate)
@@ -290,21 +296,29 @@ def BookingPrice(booking):
         price += food.pricePerDay*noOfDays
     return 0.2*price
 
+
 @app.route('/calender', methods=["POST", "GET"])
 def calender():
     return render_template('calender.html')
 
+
 @app.route('/prevBookings', methods=["POST", "GET"])
 def prevBookings():
     bookings = Booking.query.filter_by(userId=curUserId).all()
+    curDate = datetime.now()
+    for i in bookings:
+        if curDate > i.checkInDate and i.confirmation == 1:
+            i.confirmation = 4
+            db.session.commit()
     user = User.query.filter_by(id=curUserId).first()
     rooms = [Rooms.query.filter_by(id=i.roomId).first() for i in bookings]
     prices = [BookingPrice(i) for i in bookings]
     return render_template('prevBooking.html', bookings=bookings, user=user, rooms=rooms, prices=prices)
 
+
 def changeRoom(roomId, checkInDate, checkOutDate, val):
     temp = checkInDate.day - datetime.now().day
-    checkInIndex = temp
+    checkInIndex = max(0, temp)
     temp = checkOutDate.day - datetime.now().day
     checkOutIndex = temp
     room = Rooms.query.filter_by(id=roomId).first()
@@ -315,6 +329,7 @@ def changeRoom(roomId, checkInDate, checkOutDate, val):
     newstatus = room.status[0:checkInIndex] + val*(checkOutIndex-checkInIndex+1) + room.status[checkOutIndex+1:]
     room.status = newstatus
     db.session.commit()
+
 
 @app.route('/paymentDone', methods=["POST", "GET"])
 def paymentDone():
@@ -387,6 +402,7 @@ def BookAvailable(bookingId):
     changeRoom(booking.roomId, checkInDate, checkOutDate, '1')
     return True
 
+
 @app.route('/cancelBooking<bookingId>', methods=["POST", "GET"])
 def cancelBooking(bookingId):
     print("Cancelling")
@@ -424,6 +440,7 @@ def cancelBooking(bookingId):
         return adminPrevBooking()
     return prevBookings()
 
+
 @app.route('/admin', methods=["POST", "GET"])
 def admin():
     allReq = Authentication.query.filter_by(val=0)
@@ -432,9 +449,11 @@ def admin():
         users.append(User.query.filter_by(id=req.id).first())
     return render_template('admin.html', users=users)
 
+
 @app.route('/adminCalendar', methods=["POST", "GET"])
 def adminCalender():
     return render_template('adminCalendar.html')
+
 
 @app.route('/adminPrevBooking', methods=["POST", "GET"])
 def adminPrevBooking():
@@ -443,6 +462,7 @@ def adminPrevBooking():
     rooms = [Rooms.query.filter_by(id=i.roomId).first() for i in bookings]
     prices = [BookingPrice(i) for i in bookings]
     return render_template('adminPrevBooking.html', bookings=bookings, user=user, rooms=rooms, prices=prices)
+
 
 @app.route('/authorize/<userId>/<desc>', methods=["POST", "GET"])
 def authorize(userId, desc):
@@ -454,6 +474,18 @@ def authorize(userId, desc):
     return admin()
 
 
+@app.route('/feedback/<bookingId>', methods=["POST", "GET"])
+def feedback(bookingId):
+    return render_template('feedback.html', bookingId=bookingId)
+
+@app.route('/setfeedback/<bookingId>', methods=["POST", "GET"])
+def setfeedback(bookingId):
+    text = request.form['text']
+    booking = Booking.query.filter_by(id=bookingId).first()
+    booking.feedback = text
+    booking.confirmation = 5
+    db.session.commit()
+    return prevBookings()
 
 if __name__ == '__main__':
     app.run()

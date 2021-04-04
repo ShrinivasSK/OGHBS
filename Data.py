@@ -68,13 +68,13 @@ from app import Authentication
 # db.session.add(admin)
 # db.session.commit()
 
-users = User.query.all()
-auth = Authentication.query.all()
-for i in users:
-    print(i.id)
-    print(i.username)
-    print(i.password)
-for i in auth:
-    print(i.id)
-    print(i.val)
+# users = User.query.all()
+# auth = Authentication.query.all()
+# for i in users:
+#     print(i.id)
+#     print(i.username)
+#     print(i.password)
+# for i in auth:
+#     print(i.id)
+#     print(i.val)
 
