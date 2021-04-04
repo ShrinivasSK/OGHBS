@@ -40,9 +40,9 @@
                 {#
                 <div class="social-container">#} {# <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>#} {# <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>#} {# <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>#} {# </div>#} {# <span>or use your account</span>#}
                 {% if flag == 0%}
-                <span>waiting Authentication !!</span> {% elif flag == 1 %}
-                <span>username or password wrong !!</span> {% elif flag == 2 %}
-                <span>Authentication denied !!</span> {% endif %}
+                <span class="error">Waiting Authentication !!</span> {% elif flag == 1 %}
+                <span class="error">Username or Password wrong !!</span> {% elif flag == 2 %}
+                <span class="error">Authentication Denied !!</span> {% endif %}
                 <input type="text" name="username" id="email" placeholder="UserName" />
                 <input type="password" name="password" id="password" placeholder="Password" /> {# <a href="#">Forgot your password?</a>#}
                 <!--<button id="login">Sign In</button>-->

@@ -48,7 +48,8 @@
             </div>
 
             <button class="searchButton" type="submit">Search</button>
-
+            {% if flag==0 %}
+                <span class="error">Invalid Input!!</span> {% endif %}
         </div>
     </form>
 

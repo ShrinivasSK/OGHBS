@@ -4,7 +4,7 @@
 }
 
 body {
-    background: linear-gradient(to right, lightslategrey,cadetblue);
+    background: linear-gradient(to right, #ffa3a5,#FEB1C0);
     /*display: flex;*/
     /*justify-content: center;*/
     /*align-items: center;*/
@@ -27,9 +27,9 @@ h2 {
 
 button {
     border-radius: 20px;
-    border: 1px solid #FF4B2B;
-    background-color: #FF4B2B;
-    color: #FFFFFF;
+    border: 1px solid #FEB1C0;
+    background-color: #FEB1C0;
+    color: #320869;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;

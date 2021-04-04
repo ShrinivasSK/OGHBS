@@ -33,24 +33,24 @@
             <li><a href="/prevBookings">Your Booking</a></li>
         </ul>
     </div>
-    {% if flag==0 %}
-    <span>Not a Valid Date!!</span> {% endif %}
+
     <form action="/viewrooms" method="POST">
-        <div class="flex-container">
+            <div class="flex-container">
+                <div class="checkin">
+                    <label class="dateLabel" for="checkintime">Check-In Date</label>
+                    <input class="dateInput" type="date" name="checkintime" id="checkintime" placeholder="YYYY-DD-MM">
+                </div>
 
-            <div class="checkin">
-                <label class="dateLabel" for="checkintime">Check-In Date</label>
-                <input class="dateInput" type="date" name="checkintime" id="checkintime" placeholder="YYYY-DD-MM">
+                <div class="checkout">
+                    <label class="dateLabel" for="checkouttime">Check-Out Date</label>
+                    <input class="dateInput" type="date" name="checkouttime" id="checkouttime" placeholder="YYYY-DD-MM">
+                </div>
+
+                <button class="searchButton" type="submit">Search</button>
+                {% if flag==0 %}
+                <span class="error">Invalid Input!!</span> {% endif %}
             </div>
 
-            <div class="checkout">
-                <label class="dateLabel" for="checkouttime">Check-Out Date</label>
-                <input class="dateInput" type="date" name="checkouttime" id="checkouttime" placeholder="YYYY-DD-MM">
-            </div>
-
-            <button class="searchButton" type="submit">Search</button>
-
-        </div>
     </form>
 
     <footer id="dk-footer" class="dk-footer">

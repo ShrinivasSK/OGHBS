@@ -224,7 +224,7 @@ def ViewRooms():
             checkoutdate = datetime.strptime(request.form['checkouttime'], '%Y-%m-%d')
             checkInDate = checkindate
             checkOutDate = checkoutdate
-            if datetime.now() <= checkInDate <= checkOutDate:
+            if datetime.now() <= checkInDate <= checkOutDate and (checkOutDate-datetime.now()).days < 100:
                 pass
             else:
                 if curUserId == 0:

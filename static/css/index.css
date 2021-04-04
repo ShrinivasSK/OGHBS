@@ -570,3 +570,8 @@ footer a {
   display: inline-block;
   padding-left: 20px;
 }
+
+.error{
+	color: red;
+	font-size: 1.2rem;
+}
