@@ -13,7 +13,7 @@ body { color: #ccc }
     /*margin: 2rem;*/
 }
 
-.container{
+.footerContainer{
     display: flex;
   justify-content: center;
 }

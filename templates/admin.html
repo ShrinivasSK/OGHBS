@@ -12,56 +12,56 @@
 
 <body>
 
-<div class="nav">
-    <ul class="navigation">
-        <li><a href="/admin">Authorize Users</a></li>
-      <li><a href="/adminCalendar">View Rooms</a></li>
-      <li><a href="/adminPrevBooking">All Bookings</a></li>
+    <div class="nav">
+        <ul class="navigation">
+            <li><a href="/admin">Authorize Users</a></li>
+            <li><a href="/adminCalendar">View Rooms</a></li>
+            <li><a href="/adminPrevBooking">All Bookings</a></li>
 
-    </ul>
-</div>
-{% for user in users %}
-            <div class="bookingBox">
-                <div>
-                    <img src="https://cdn.icon-icons.com/icons2/1674/PNG/512/person_110935.png" width="300px" height="300px" />
+        </ul>
+    </div>
+    {% for user in users %}
+    <div class="bookingBox">
+        <div>
+            <img src="https://cdn.icon-icons.com/icons2/1674/PNG/512/person_110935.png" width="300px" height="300px" />
+        </div>
+        <div class="center">
+            <div class="bookingId">
+                <h2>{{user.username}}</h2>
+            </div>
+            <div class="bookingDates">
+                <div class="date">
+                    <h3>Name</h3>
+                    <h4>{{ user.name }}</h4>
                 </div>
-                <div class="center">
-                    <div class="bookingId">
-                        <h2>{{user.username}}</h2>
-                    </div>
-                    <div class="bookingDates">
-                        <div class="date">
-                            <h3>Name</h3>
-                            <h4>{{ user.name }}</h4>
-                        </div>
-                        <div class="date">
-                            <h3>Age</h3>
-                            <h4>{{ user.age }}</h4>
-                        </div>
-                        <div class="date">
-                            <h3>Gender</h3>
-                            <h4>{{user.gender}}</h4>
-                        </div>
-                    </div>
-                    <div class="details">
-                        <div class="date">
-                            <h3>Address</h3>
-                            <h4>{{user.address}}</h4>
-                        </div>
-                    </div>
-                    <div class="details">
-                        <div class="date">
-                            <h3>Student's Roll number: </h3>
-                            <h4>{{user.rollStd}}</h4>
-                        </div>
-                    </div>
+                <div class="date">
+                    <h3>Age</h3>
+                    <h4>{{ user.age }}</h4>
                 </div>
-                <div class="buttonDiv">
-                    <a href="{{ url_for('authorize', userId=user.id, desc=2) }}" class="room_features--book-btn"><button class="button">Deny</button></a>
-                    <a href="{{ url_for('authorize', userId=user.id, desc=1) }}" class="room_features--book-btn"><button class="button">Authorize</button></a>
+                <div class="date">
+                    <h3>Gender</h3>
+                    <h4>{{user.gender}}</h4>
                 </div>
             </div>
-{% endfor %}
+            <div class="details">
+                <div class="date">
+                    <h3>Address</h3>
+                    <h4>{{user.address}}</h4>
+                </div>
+            </div>
+            <div class="details">
+                <div class="date">
+                    <h3>Student's Roll number: </h3>
+                    <h4>{{user.rollStd}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="buttonDiv">
+            <a href="{{ url_for('authorize', userId=user.id, desc=2) }}" class="room_features--book-btn"><button class="button">Deny</button></a>
+            <a href="{{ url_for('authorize', userId=user.id, desc=1) }}" class="room_features--book-btn"><button class="button">Authorize</button></a>
+        </div>
+    </div>
+    {% endfor %}
 
 </body>
 
