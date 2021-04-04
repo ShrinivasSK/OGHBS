@@ -20,7 +20,7 @@
 			mv-storage="#data"
 			mv-source="#source"
 			mv-mode="read">
-		<form mv-multiple="feedback">
+		<form mv-multiple="feedback" action="/setfeedback/{{ bookingId }}" method="POST">
 			<label>
 				<h2>
 					How satisfied are you overall with the IIT Kharagpur Guest House?
@@ -48,7 +48,7 @@
 				</div>
 			</label>
 
-			<textarea property="comment"
+			<textarea name="text" property="comment"
 						 cols="30" rows="10"
 						 placeholder="Please give your feedback..."></textarea>
 
@@ -83,11 +83,10 @@
 			</section> -->
 
 			<div class="mv-bar">
-				<button class="mv-save"
-						  disabled="[!month or !year]"
-						  mv-action="add(feedback)">
-					Send Feedback
-				</button>
+{#				<button type="submit" class="mv-save">#}
+{#					Send Feedback#}
+{#				</button>#}
+                <input class="button" type="submit" value="Send Feedback" />
 			</div>
 		</form>
 	</main>

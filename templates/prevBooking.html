@@ -72,7 +72,7 @@
             <div class="status">
                 <div class="date">
                     <h3 class="status">Status: </h3>
-                    <h4 class="amount">{% if i.confirmation==0 %} in Queue {% elif  i.confirmation==1 %} Confirmed {% else %} Cancelled {% endif %}</h4>
+                    <h4 class="amount">{% if i.confirmation==0 %} in Queue {% elif  i.confirmation==1 %} Confirmed {% elif  i.confirmation==5 %} Feedback done {% else %} Cancelled {% endif %}</h4>
                 </div>
             </div>
         </div>
@@ -82,7 +82,11 @@
         </div>
         {% elif i.confirmation==4 %}
         <div class="buttonDiv">
-            <button class="button">FeedBack</button>
+            <a href="{{ url_for('feedback', bookingId=i.id) }}" ><button class="button">FeedBack</button></a>
+        </div>
+        {% elif i.confirmation==5 %}
+        <div class="buttonDiv">
+            <button class="button">FeedBack Done</button>
         </div>
         {% else %}
         <div class="buttonDiv">
