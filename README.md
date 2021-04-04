@@ -37,8 +37,8 @@ SQLAlchemy
 ## How to run
 
 To run the program, follow the below procedure after installing the above dependencies:
-```
-bash
+
+```bash
 cd /to/project/dir
 python3 app.py
 ````
