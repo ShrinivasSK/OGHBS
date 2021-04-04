@@ -44,6 +44,7 @@ for i in foods:
 
 print(FoodOptions.query.count())
 
+
 # rooms = Rooms.query.all()
 # for i in rooms:
 #     i.status = st
