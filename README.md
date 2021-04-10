@@ -25,21 +25,21 @@ Bootstrap <br/>
 You need the following  in your system to run the project:
 
 
-python 3.6 and above
-Flask
-Flask-SQLAlchemy
-Jinja2
-SQLAlchemy
+python 3.6 and above<br/>
+Flask<br/>
+Jinja<br/>
+SQLAlchemy<br/>
 
 
 
 ## How to run
 
 To run the program, follow the below procedure after installing the above dependencies:
-
+```
 bash
 cd /to/project/dir
 python3 app.py
+```
 
 
 
