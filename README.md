@@ -48,7 +48,7 @@ python3 app.py
 
 ## Presentation
 
-The included [presentation](https://docs.google.com/presentation/d/1L4vQjprS5gTK5wKBfh6PIdkHpLyO9mQv8Hg3CPRgbp8/edit?usp=sharing) contains most of the details of the project: the aim, motivation and the technologies used. Please have a look at it for brief view.
+The included [presentation](https://docs.google.com/presentation/d/1QJG7yAT_4qg8UlWZ7tBcoNjB6X1eLxhG7GxNLIfYm-U/edit?usp=sharing) contains most of the details of the project: the aim, motivation and the technologies used. Please have a look at it for brief view.
 
 ## Made by:
 - 19CS10065 Vinit Raj
